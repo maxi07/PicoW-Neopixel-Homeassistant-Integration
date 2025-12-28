@@ -1,0 +1,48 @@
+{
+    "config": {
+        "step": {
+            "scan": {
+                "title": "Searching for devices",
+                "description": "Scanning your network for PicoW NeoPixel devices. This may take up to {timeout} seconds."
+            },
+            "manual": {
+                "title": "Add PicoW NeoPixel Device",
+                "description": "No devices found automatically. Enter the IP address and port manually.",
+                "data": {
+                    "host": "IP Address",
+                    "port": "Port"
+                }
+            },
+            "user": {
+                "title": "Add PicoW NeoPixel Device",
+                "description": "Enter the IP address and port of your PicoW NeoPixel device.",
+                "data": {
+                    "host": "IP Address",
+                    "port": "Port"
+                }
+            },
+            "discovery": {
+                "title": "Discovered Devices",
+                "description": "Select a discovered PicoW NeoPixel device to add.",
+                "data": {
+                    "device": "Device"
+                }
+            },
+            "discovery_confirm": {
+                "title": "Confirm Discovery",
+                "description": "Do you want to add {name}?"
+            }
+        },
+        "progress": {
+            "scan_devices": "Scanning network for PicoW NeoPixel devices..."
+        },
+        "error": {
+            "cannot_connect": "Failed to connect to the device. Please check the IP address and ensure the device is powered on.",
+            "timeout": "Connection timed out. Please check the device and network.",
+            "unknown": "An unexpected error occurred."
+        },
+        "abort": {
+            "already_configured": "This device is already configured."
+        }
+    }
+}

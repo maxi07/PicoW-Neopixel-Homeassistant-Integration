@@ -1,0 +1,11 @@
+{
+    "domain": "picow_neopixel",
+    "name": "PicoW NeoPixel",
+    "version": "1.0.0",
+    "documentation": "https://github.com/maxi07/picow-neopixel-homeassistant",
+    "dependencies": [],
+    "codeowners": ["@maxi07"],
+    "requirements": [],
+    "config_flow": true,
+    "iot_class": "local_polling"
+}

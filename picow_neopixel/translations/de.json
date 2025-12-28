@@ -1,0 +1,48 @@
+{
+    "config": {
+        "step": {
+            "scan": {
+                "title": "Geräte werden gesucht",
+                "description": "Ihr Netzwerk wird nach PicoW NeoPixel Geräten durchsucht. Dies kann bis zu {timeout} Sekunden dauern."
+            },
+            "manual": {
+                "title": "PicoW NeoPixel Gerät hinzufügen",
+                "description": "Keine Geräte automatisch gefunden. Geben Sie die IP-Adresse und den Port manuell ein.",
+                "data": {
+                    "host": "IP-Adresse",
+                    "port": "Port"
+                }
+            },
+            "user": {
+                "title": "PicoW NeoPixel Gerät hinzufügen",
+                "description": "Geben Sie die IP-Adresse und den Port Ihres PicoW NeoPixel Geräts ein.",
+                "data": {
+                    "host": "IP-Adresse",
+                    "port": "Port"
+                }
+            },
+            "discovery": {
+                "title": "Gefundene Geräte",
+                "description": "Wählen Sie ein gefundenes PicoW NeoPixel Gerät aus, um es hinzuzufügen.",
+                "data": {
+                    "device": "Gerät"
+                }
+            },
+            "discovery_confirm": {
+                "title": "Erkennung bestätigen",
+                "description": "Möchten Sie {name} hinzufügen?"
+            }
+        },
+        "progress": {
+            "scan_devices": "Netzwerk wird nach PicoW NeoPixel Geräten durchsucht..."
+        },
+        "error": {
+            "cannot_connect": "Verbindung zum Gerät fehlgeschlagen. Bitte überprüfen Sie die IP-Adresse und stellen Sie sicher, dass das Gerät eingeschaltet ist.",
+            "timeout": "Zeitüberschreitung der Verbindung. Bitte überprüfen Sie das Gerät und das Netzwerk.",
+            "unknown": "Ein unerwarteter Fehler ist aufgetreten."
+        },
+        "abort": {
+            "already_configured": "Dieses Gerät ist bereits konfiguriert."
+        }
+    }
+}
