@@ -1,4 +1,8 @@
 # 🌈 PicoW NeoPixel Home Assistant Integration
+<img src="picow_neopixel.png" alt="picow_neopixel icon" width="200"/>
+
+> [!WARNING]
+> This repository is under development and will be released soon to HACS.
 
 A custom Home Assistant integration for controlling NeoPixel LED strips connected to Raspberry Pi Pico W devices via a REST API.
 
@@ -22,7 +26,7 @@ A custom Home Assistant integration for controlling NeoPixel LED strips connecte
 
 ### Part 1: PicoW Device Setup
 
-Install the PicoW Neopixel code on to your Raspberry Pico, see other repository.
+Install the PicoW Neopixel code on to your Raspberry Pico, see [other repository](https://github.com/maxi07/PicoW-Neopixel-Homeassistant-Client).
 
 ### Part 2: Install this integration
 
@@ -93,63 +97,8 @@ The integration supports 8 built-in effects:
 - **Scanner**: Knight Rider style
 - **Strobe**: Strobe light effect
 
-### Example Automations
-
-#### Turn on at sunset with rainbow effect
-```yaml
-automation:
-  - alias: "LED Strip Rainbow at Sunset"
-    trigger:
-      - platform: sun
-        event: sunset
-    action:
-      - service: light.turn_on
-        target:
-          entity_id: light.picow_neopixel
-        data:
-          effect: rainbow
-          brightness: 200
-```
-
-#### 🌡️ Set color based on temperature
-```yaml
-automation:
-  - alias: "LED Color by Temperature"
-    trigger:
-      - platform: state
-        entity_id: sensor.living_room_temperature
-    action:
-      - service: light.turn_on
-        target:
-          entity_id: light.picow_neopixel
-        data:
-          rgb_color: >
-            {% if trigger.to_state.state|float < 20 %}
-              [0, 100, 255]
-            {% elif trigger.to_state.state|float < 23 %}
-              [0, 255, 0]
-            {% else %}
-              [255, 100, 0]
-            {% endif %}
-```
-
-#### 🚪 Breathing effect for notifications
-```yaml
-automation:
-  - alias: "LED Breathing on Notification"
-    trigger:
-      - platform: state
-        entity_id: binary_sensor.front_door
-        to: "on"
-    action:
-      - service: light.turn_on
-        target:
-          entity_id: light.picow_neopixel
-        data:
-          effect: breathing
-          rgb_color: [255, 0, 0]
-          brightness: 255
-```
+###  Automations
+Automations can be configured and the device exposes actions such as setting the brightness, color, or starting an effect.
 
 ## 🔧 Troubleshooting
 
