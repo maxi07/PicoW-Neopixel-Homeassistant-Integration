@@ -4,7 +4,7 @@
     "version": "1.0.0",
     "documentation": "https://github.com/maxi07/PicoW-Neopixel-Homeassistant-Integration",
     "issue_tracker": "https://github.com/maxi07/PicoW-Neopixel-Homeassistant-Integration/issues",
-    "dependencies": [],
+    "dependencies": ["network"],
     "codeowners": ["@maxi07"],
     "requirements": [],
     "config_flow": true,
