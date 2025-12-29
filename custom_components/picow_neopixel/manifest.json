@@ -1,12 +1,12 @@
 {
     "domain": "picow_neopixel",
     "name": "PicoW NeoPixel",
-    "version": "1.0.0",
-    "documentation": "https://github.com/maxi07/PicoW-Neopixel-Homeassistant-Integration",
-    "issue_tracker": "https://github.com/maxi07/PicoW-Neopixel-Homeassistant-Integration/issues",
-    "dependencies": ["network"],
     "codeowners": ["@maxi07"],
-    "requirements": [],
     "config_flow": true,
-    "iot_class": "local_polling"
+    "dependencies": ["network"],
+    "documentation": "https://github.com/maxi07/PicoW-Neopixel-Homeassistant-Integration",
+    "iot_class": "local_polling",
+    "issue_tracker": "https://github.com/maxi07/PicoW-Neopixel-Homeassistant-Integration/issues",
+    "requirements": [],
+    "version": "1.0.0"
 }
