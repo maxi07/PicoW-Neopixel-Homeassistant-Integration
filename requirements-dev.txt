@@ -1,0 +1,17 @@
+# Development dependencies for VS Code IntelliSense and type checking
+# Install with: pip install -r requirements-dev.txt
+
+# Home Assistant (without dependencies for type hints only)
+# Install with: pip install --no-deps homeassistant
+homeassistant>=2025.4.0
+
+# Official Home Assistant type stubs (provides additional type information)
+homeassistant-stubs>=2025.4.0
+
+# Runtime dependencies needed by the integration
+aiohttp>=3.9.0
+voluptuous>=0.13.0
+
+# Additional typing support
+types-aiofiles
+types-orjson

@@ -13,7 +13,7 @@ from homeassistant import config_entries
 from homeassistant.components import network
 from homeassistant.const import CONF_HOST, CONF_NAME, CONF_PORT
 from homeassistant.core import HomeAssistant
-from homeassistant.data_entry_flow import FlowResult
+from homeassistant.config_entries import ConfigFlowResult
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .const import (
@@ -37,8 +37,10 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[str,
     session = async_get_clientsession(hass)
     _LOGGER.debug("Validating connection to device at %s:%s", host, port)
     _LOGGER.debug("Connecting to URL: %s", url)
-    try_count = 1
-    while try_count <= 3:
+
+    last_error: Exception | None = None
+
+    for try_count in range(1, 4):  # 3 Versuche
         _LOGGER.debug("Connection attempt %d to %s:%s", try_count, host, port)
         try:
             async with asyncio.timeout(10):
@@ -61,17 +63,27 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[str,
                         "device_id": device_info.get("id", "unknown"),
                         "capabilities": info.get("capabilities", {}),
                     }
-        except asyncio.TimeoutError as err:
-            _LOGGER.error("Timeout connecting to device at %s:%s", host, port)
-            raise CannotConnect from err
+        except asyncio.TimeoutError:
+            _LOGGER.warning("Timeout on attempt %d connecting to device at %s:%s", try_count, host, port)
+            last_error = CannotConnect()
+            if try_count < 3:
+                await asyncio.sleep(1)  # Kurze Pause zwischen Versuchen
         except aiohttp.ClientError as err:
-            _LOGGER.error("Error connecting to device at %s:%s: %s", host, port, err)
-            raise CannotConnect from err
+            _LOGGER.warning("Error on attempt %d connecting to device at %s:%s: %s", try_count, host, port, err)
+            last_error = CannotConnect()
+            if try_count < 3:
+                await asyncio.sleep(1)
+        except CannotConnect:
+            last_error = CannotConnect()
+            if try_count < 3:
+                await asyncio.sleep(1)
         except Exception as err:
             _LOGGER.exception("Unexpected error connecting to device: %s", err)
             raise UnknownError from err
-        finally:
-            try_count += 1
+
+    # Alle Versuche fehlgeschlagen
+    _LOGGER.error("All connection attempts failed to %s:%s", host, port)
+    raise last_error if last_error else CannotConnect()
 
 
 class PicoWNeoPixelConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
@@ -256,14 +268,14 @@ class PicoWNeoPixelConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
     async def async_step_user(
         self, user_input: dict[str, Any] | None = None
-    ) -> FlowResult:
+    ) -> ConfigFlowResult:
         """Handle the initial step."""
         # Start discovery scan immediately
         return await self.async_step_scan()
 
     async def async_step_scan(
         self, user_input: dict[str, Any] | None = None
-    ) -> FlowResult:
+    ) -> ConfigFlowResult:
         """Show progress while scanning for devices."""
         if not self._discovery_done:
             # Show progress screen with task
@@ -302,7 +314,7 @@ class PicoWNeoPixelConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
     async def async_step_manual(
         self, user_input: dict[str, Any] | None = None
-    ) -> FlowResult:
+    ) -> ConfigFlowResult:
         """Handle manual device input after failed discovery."""
         errors: dict[str, str] = {}
 
@@ -344,7 +356,7 @@ class PicoWNeoPixelConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
     async def async_step_discovery(
         self, user_input: dict[str, Any] | None = None
-    ) -> FlowResult:
+    ) -> ConfigFlowResult:
         """Handle discovery of devices."""
         errors: dict[str, str] = {}
 
