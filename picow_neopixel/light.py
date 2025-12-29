@@ -60,7 +60,7 @@ class PicoWNeoPixelLight(CoordinatorEntity[PicoWNeoPixelCoordinator], LightEntit
     ) -> None:
         """Initialize the light."""
         super().__init__(coordinator)
-        
+
         self._attr_unique_id = entry.data[CONF_DEVICE_ID]
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, entry.data[CONF_DEVICE_ID])},
@@ -69,7 +69,7 @@ class PicoWNeoPixelLight(CoordinatorEntity[PicoWNeoPixelCoordinator], LightEntit
             model="PicoW NeoPixel Controller",
             sw_version="1.0",
         )
-        
+
         self._attr_effect_list = EFFECT_LIST.copy()
 
     @property
@@ -165,14 +165,14 @@ class PicoWNeoPixelLight(CoordinatorEntity[PicoWNeoPixelCoordinator], LightEntit
             info = self.coordinator.data.get("info", {})
             capabilities = info.get("capabilities", {})
             device = info.get("device", {})
-            
+
             attributes = {
                 "device_id": device.get("id"),
                 "ip_address": device.get("ip"),
                 "mac_address": device.get("mac"),
                 "num_leds": capabilities.get("num_leds"),
             }
-            
+
             return {k: v for k, v in attributes.items() if v is not None}
         except (KeyError, TypeError):
             return {}

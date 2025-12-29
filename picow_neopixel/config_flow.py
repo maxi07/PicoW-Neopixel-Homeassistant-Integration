@@ -4,7 +4,6 @@ from __future__ import annotations
 import asyncio
 import ipaddress
 import logging
-import socket
 from typing import Any
 
 import aiohttp
@@ -13,7 +12,7 @@ import voluptuous as vol
 from homeassistant import config_entries
 from homeassistant.components import network
 from homeassistant.const import CONF_HOST, CONF_NAME, CONF_PORT
-from homeassistant.core import HomeAssistant, callback
+from homeassistant.core import HomeAssistant
 from homeassistant.data_entry_flow import FlowResult
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -23,7 +22,6 @@ from .const import (
     DEFAULT_PORT,
     DOMAIN,
     ERROR_CANNOT_CONNECT,
-    ERROR_TIMEOUT,
     ERROR_UNKNOWN,
 )
 
@@ -34,7 +32,7 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[str,
     """Validate the user input allows us to connect."""
     host = data[CONF_HOST]
     port = data.get(CONF_PORT, DEFAULT_PORT)
-    
+
     url = f"http://{host}:{port}/info"
     session = async_get_clientsession(hass)
     _LOGGER.debug("Validating connection to device at %s:%s", host, port)
@@ -48,16 +46,16 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[str,
                     if response.status != 200:
                         _LOGGER.error("Device returned status %s", response.status)
                         raise CannotConnect
-                    
+
                     info = await response.json()
-                    
+
                     # Validate response structure
                     if "device" not in info:
                         _LOGGER.error("Invalid device info response")
                         raise CannotConnect
-                    
+
                     device_info = info["device"]
-                    
+
                     return {
                         "title": device_info.get("name", DEFAULT_NAME),
                         "device_id": device_info.get("id", "unknown"),
@@ -118,46 +116,46 @@ class PicoWNeoPixelConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         """Discover devices via HTTP network scan."""
         if self._discovery_done:
             return
-        
+
         _LOGGER.info("Starting HTTP network scan for devices...")
         start_time = asyncio.get_event_loop().time()
-        
+
         try:
             # Get Home Assistant's local IP to determine network
             adapters = await network.async_get_adapters(self.hass)
             local_ips = []
             networks_to_scan = set()  # Use set to avoid duplicates
             is_docker = False
-            
+
             # Collect all IPv4 addresses and their networks from adapters
             for adapter in adapters:
                 if not adapter.get("enabled", True):
                     continue
-                    
+
                 for ip_info in adapter["ipv4"]:
                     address = ip_info.get("address")
                     if not address or address.startswith("127."):
                         continue
-                    
+
                     local_ips.append(address)
-                    
+
                     # Detect Docker bridge network
                     if address.startswith("172."):
                         is_docker = True
                         _LOGGER.info("Docker bridge network detected")
-                    
+
                     # Get network from adapter's IP and prefix
                     try:
                         network_prefix = ip_info.get("network_prefix", 24)
                         network_obj = ipaddress.ip_network(f"{address}/{network_prefix}", strict=False)
-                        
+
                         # Skip Docker bridge networks for scanning
                         if not str(network_obj).startswith("172."):
                             networks_to_scan.add(network_obj)
                             _LOGGER.debug("Added network from adapter: %s", network_obj)
                     except Exception as err:
                         _LOGGER.debug("Could not parse network from %s: %s", address, err)
-            
+
             # If running in Docker (detected by 172.x IP), scan common home networks
             if is_docker and not networks_to_scan:
                 _LOGGER.info("Docker detected without local networks. Scanning common home networks.")
@@ -178,31 +176,31 @@ class PicoWNeoPixelConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                         networks_to_scan.add(ipaddress.ip_network(network_str, strict=False))
                     except Exception as err:
                         _LOGGER.debug("Could not add network %s: %s", network_str, err)
-            
+
             if not networks_to_scan:
                 _LOGGER.warning("Could not determine any networks to scan")
                 return
-            
+
             _LOGGER.info("Scanning %d network(s): %s", len(networks_to_scan), [str(n) for n in networks_to_scan])
-            
+
             # Scan all networks with timeout
             session = async_get_clientsession(self.hass)
             scan_tasks = []
-            
+
             for network_obj in networks_to_scan:
                 # Check if we've exceeded total discovery timeout
                 elapsed = asyncio.get_event_loop().time() - start_time
                 if elapsed > self.DISCOVERY_TIMEOUT:
                     _LOGGER.warning("Discovery timeout reached, stopping scan")
                     break
-                
+
                 # Create scan tasks for all IPs in network
                 for ip in network_obj.hosts():
                     ip_str = str(ip)
                     # Skip Home Assistant's own IPs
                     if ip_str not in local_ips:
                         scan_tasks.append(self._scan_ip(session, ip_str, DEFAULT_PORT))
-                    
+
                     # Batch scans to avoid overwhelming the network
                     if len(scan_tasks) >= self.MAX_PARALLEL_SCANS:
                         # Check timeout before processing batch
@@ -210,7 +208,7 @@ class PicoWNeoPixelConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                         if elapsed > self.DISCOVERY_TIMEOUT:
                             _LOGGER.warning("Discovery timeout reached during batch processing")
                             break
-                        
+
                         results = await asyncio.gather(*scan_tasks, return_exceptions=True)
                         for result in results:
                             if result and isinstance(result, dict):
@@ -223,7 +221,7 @@ class PicoWNeoPixelConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                                 }
                                 _LOGGER.info("Found device: %s at %s", result["name"], result["ip"])
                         scan_tasks = []
-            
+
             # Process remaining tasks
             if scan_tasks:
                 elapsed = asyncio.get_event_loop().time() - start_time
@@ -246,11 +244,11 @@ class PicoWNeoPixelConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                                 _LOGGER.info("Found device: %s at %s", result["name"], result["ip"])
                     except asyncio.TimeoutError:
                         _LOGGER.warning("Final batch timed out")
-            
+
             total_time = asyncio.get_event_loop().time() - start_time
-            _LOGGER.info("Network scan completed in %.1f seconds. Found %d devices", 
-                        total_time, len(self.discovered_devices))
-            
+            _LOGGER.info("Network scan completed in %.1f seconds. Found %d devices",
+                         total_time, len(self.discovered_devices))
+
         except Exception as err:
             _LOGGER.error("Error during HTTP device discovery: %s", err, exc_info=True)
         finally:
@@ -276,25 +274,25 @@ class PicoWNeoPixelConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     self._async_scan_task()
                 ),
             )
-        
+
         # Discovery done, check results
         if self.discovered_devices:
             return self.async_show_progress_done(next_step_id="discovery")
-        
+
         # No devices found, go to manual input
         return self.async_show_progress_done(next_step_id="manual")
-    
+
     async def _async_scan_task(self) -> None:
         """Background task to scan for devices."""
         _LOGGER.info("Starting device discovery...")
         await self._discover_devices_http()
-        
+
         # Update progress when done
         if self.discovered_devices:
             _LOGGER.info("Devices found, will redirect to discovery step")
         else:
             _LOGGER.info("No devices found, will redirect to manual input")
-        
+
         # Trigger the next step
         self.hass.async_create_task(
             self.hass.config_entries.flow.async_configure(
@@ -349,29 +347,29 @@ class PicoWNeoPixelConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     ) -> FlowResult:
         """Handle discovery of devices."""
         errors: dict[str, str] = {}
-        
+
         if user_input is not None:
             # User selected a discovered device
             device_id = user_input["device"]
             device = self.discovered_devices[device_id]
-            
+
             # Give the device a moment to recover from the scan
             await asyncio.sleep(2)
-            
-            _LOGGER.debug("Validating connection to device at %s:%s", 
-                         device[CONF_HOST], device.get(CONF_PORT, DEFAULT_PORT))
+
+            _LOGGER.debug("Validating connection to device at %s:%s",
+                          device[CONF_HOST], device.get(CONF_PORT, DEFAULT_PORT))
 
             try:
-                _LOGGER.debug("Connecting to URL: http://%s:%s/info", 
-                             device[CONF_HOST], device.get(CONF_PORT, DEFAULT_PORT))
+                _LOGGER.debug("Connecting to URL: http://%s:%s/info",
+                              device[CONF_HOST], device.get(CONF_PORT, DEFAULT_PORT))
                 info = await validate_input(self.hass, device)
             except CannotConnect:
-                _LOGGER.warning("Cannot connect to discovered device at %s:%s. Device may be busy.", 
-                               device[CONF_HOST], device.get(CONF_PORT, DEFAULT_PORT))
+                _LOGGER.warning("Cannot connect to discovered device at %s:%s. Device may be busy.",
+                                device[CONF_HOST], device.get(CONF_PORT, DEFAULT_PORT))
                 errors["base"] = ERROR_CANNOT_CONNECT
             except UnknownError:
                 _LOGGER.warning("Unknown error connecting to discovered device at %s:%s",
-                               device[CONF_HOST], device.get(CONF_PORT, DEFAULT_PORT))
+                                device[CONF_HOST], device.get(CONF_PORT, DEFAULT_PORT))
                 errors["base"] = ERROR_UNKNOWN
             else:
                 # Successfully connected, create entry
@@ -379,7 +377,7 @@ class PicoWNeoPixelConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 self._abort_if_unique_id_configured()
 
                 _LOGGER.info("Creating entry for device: %s at %s:%s",
-                            info["title"], device[CONF_HOST], device.get(CONF_PORT, DEFAULT_PORT))
+                             info["title"], device[CONF_HOST], device.get(CONF_PORT, DEFAULT_PORT))
 
                 return self.async_create_entry(
                     title=info["title"],

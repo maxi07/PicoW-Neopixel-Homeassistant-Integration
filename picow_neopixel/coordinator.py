@@ -93,7 +93,7 @@ class PicoWNeoPixelCoordinator(DataUpdateCoordinator):
     async def async_send_command(self, command: dict[str, Any]) -> dict[str, Any]:
         """Send command to device."""
         url = f"{self.base_url}{API_CONTROL}"
-        
+
         try:
             async with asyncio.timeout(10):
                 async with self.session.post(
@@ -109,16 +109,16 @@ class PicoWNeoPixelCoordinator(DataUpdateCoordinator):
                             error_text
                         )
                         raise UpdateFailed(f"Command failed: {response.status}")
-                    
+
                     result = await response.json()
-                    
+
                     # Update coordinator data with new state
                     if "state" in result:
                         self.async_set_updated_data({
                             "state": result["state"],
                             "info": self.data.get("info", {}),
                         })
-                    
+
                     return result
         except asyncio.TimeoutError as err:
             _LOGGER.error("Timeout sending command to %s", self.host)
