@@ -44,5 +44,20 @@
         "abort": {
             "already_configured": "Dieses Gerät ist bereits konfiguriert."
         }
+    },
+    "device_automation": {
+        "action_type": {
+            "turn_on": "Einschalten",
+            "turn_off": "Ausschalten",
+            "set_brightness": "Helligkeit einstellen",
+            "set_color": "Farbe einstellen",
+            "set_effect": "Effekt einstellen"
+        },
+        "extra_fields": {
+            "brightness": "Helligkeit",
+            "rgb_color": "Farbe",
+            "effect": "Effekt"
+        }
     }
 }
+
