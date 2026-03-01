@@ -66,6 +66,32 @@
             "animation_speed": {
                 "name": "Animationsgeschwindigkeit"
             }
+        },
+        "sensor": {
+            "estimated_current": {
+                "name": "Geschätzter Strom"
+            },
+            "led_count": {
+                "name": "LED-Anzahl"
+            },
+            "free_memory": {
+                "name": "Freier Speicher"
+            },
+            "wifi_signal_percent": {
+                "name": "WLAN-Signalstärke"
+            },
+            "wifi_rssi": {
+                "name": "WLAN-RSSI"
+            },
+            "wifi_channel": {
+                "name": "WLAN-Kanal"
+            },
+            "wifi_bssid": {
+                "name": "WLAN-BSSID"
+            },
+            "ip_address": {
+                "name": "IP-Adresse"
+            }
         }
     }
 }
