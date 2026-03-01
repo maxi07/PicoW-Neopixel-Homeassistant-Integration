@@ -47,6 +47,19 @@ EFFECT_LIST: Final = [
     EFFECT_STROBE,
 ]
 
+# One-shot effects (all effects that can be played once)
+ONE_SHOT_EFFECT_LIST: Final = [
+    EFFECT_RAINBOW,
+    EFFECT_FADE,
+    EFFECT_CHASE,
+    EFFECT_BREATHING,
+    EFFECT_TWINKLE,
+    EFFECT_SCANNER,
+    EFFECT_STROBE,
+]
+
+DEFAULT_ONE_SHOT_EFFECT: Final = EFFECT_CHASE
+
 # Error messages
 ERROR_CANNOT_CONNECT: Final = "cannot_connect"
 ERROR_UNKNOWN: Final = "unknown"

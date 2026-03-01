@@ -62,6 +62,25 @@
         }
     },
     "entity": {
+        "button": {
+            "play_effect_once": {
+                "name": "Play Effect Once"
+            }
+        },
+        "select": {
+            "one_shot_effect": {
+                "name": "One-Shot Effect",
+                "state": {
+                    "rainbow": "Rainbow",
+                    "fade": "Fade",
+                    "chase": "Chase",
+                    "breathing": "Breathing",
+                    "twinkle": "Twinkle",
+                    "scanner": "Scanner",
+                    "strobe": "Strobe"
+                }
+            }
+        },
         "number": {
             "animation_speed": {
                 "name": "Animation Speed"

@@ -62,6 +62,25 @@
         }
     },
     "entity": {
+        "button": {
+            "play_effect_once": {
+                "name": "Effekt einmal abspielen"
+            }
+        },
+        "select": {
+            "one_shot_effect": {
+                "name": "Einmal-Effekt",
+                "state": {
+                    "rainbow": "Regenbogen",
+                    "fade": "Farbverlauf",
+                    "chase": "Lauflicht",
+                    "breathing": "Atmen",
+                    "twinkle": "Funkeln",
+                    "scanner": "Scanner",
+                    "strobe": "Stroboskop"
+                }
+            }
+        },
         "number": {
             "animation_speed": {
                 "name": "Animationsgeschwindigkeit"
