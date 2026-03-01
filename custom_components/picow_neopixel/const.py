@@ -19,6 +19,9 @@ API_CONTROL: Final = "/control"
 # mDNS service type
 MDNS_SERVICE_TYPE: Final = "_picow-neopixel._tcp.local."
 
+# Defaults for animation
+DEFAULT_SPEED: Final = 50
+
 # Attributes
 ATTR_EFFECT: Final = "effect"
 ATTR_SPEED: Final = "speed"

@@ -51,12 +51,21 @@
             "turn_off": "Ausschalten",
             "set_brightness": "Helligkeit einstellen",
             "set_color": "Farbe einstellen",
-            "set_effect": "Effekt einstellen"
+            "set_effect": "Effekt einstellen",
+            "set_speed": "Animationsgeschwindigkeit einstellen"
         },
         "extra_fields": {
             "brightness": "Helligkeit",
             "rgb_color": "Farbe",
-            "effect": "Effekt"
+            "effect": "Effekt",
+            "speed": "Animationsgeschwindigkeit"
+        }
+    },
+    "entity": {
+        "number": {
+            "animation_speed": {
+                "name": "Animationsgeschwindigkeit"
+            }
         }
     }
 }

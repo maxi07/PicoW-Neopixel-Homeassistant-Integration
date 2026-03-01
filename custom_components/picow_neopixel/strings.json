@@ -51,12 +51,21 @@
             "turn_off": "Turn off",
             "set_brightness": "Set brightness",
             "set_color": "Set color",
-            "set_effect": "Set effect"
+            "set_effect": "Set effect",
+            "set_speed": "Set animation speed"
         },
         "extra_fields": {
             "brightness": "Brightness",
             "rgb_color": "Color",
-            "effect": "Effect"
+            "effect": "Effect",
+            "speed": "Animation Speed"
+        }
+    },
+    "entity": {
+        "number": {
+            "animation_speed": {
+                "name": "Animation Speed"
+            }
         }
     }
 }
