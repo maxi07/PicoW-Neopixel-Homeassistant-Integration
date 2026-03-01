@@ -181,24 +181,6 @@ class WifiChannelSensor(PicoWNeoPixelSensorBase):
         return _get_nested(self.coordinator.data, "info", "diagnostics", "wifi_channel")
 
 
-# ---------- Wi-Fi BSSID ----------
-
-class WifiBssidSensor(PicoWNeoPixelSensorBase):
-    """Wi-Fi BSSID of connected access point."""
-
-    _attr_name = "Wi-Fi BSSID"
-    _attr_icon = "mdi:access-point-network"
-    _attr_entity_category = EntityCategory.DIAGNOSTIC
-    _attr_entity_registry_enabled_default = False
-
-    def __init__(self, coordinator, entry) -> None:
-        super().__init__(coordinator, entry, "wifi_bssid")
-
-    @property
-    def native_value(self) -> str | None:
-        return _get_nested(self.coordinator.data, "info", "diagnostics", "wifi_bssid")
-
-
 # ---------- IP Address ----------
 
 class IpAddressSensor(PicoWNeoPixelSensorBase):
@@ -233,7 +215,6 @@ async def async_setup_entry(
             WifiSignalPercentSensor(coordinator, entry),
             WifiRssiSensor(coordinator, entry),
             WifiChannelSensor(coordinator, entry),
-            WifiBssidSensor(coordinator, entry),
             IpAddressSensor(coordinator, entry),
         ],
         update_before_add=True,
