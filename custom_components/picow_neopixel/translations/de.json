@@ -80,7 +80,11 @@
                     "strobe": "Stroboskop",
                     "comet": "Komet",
                     "chase_middle_out": "Lauflicht Mitte nach Außen",
-                    "chase_outside_in": "Lauflicht Außen nach Mitte"
+                    "chase_outside_in": "Lauflicht Außen nach Mitte",
+                    "fill_middle_out": "Füllen Mitte nach Außen",
+                    "fill_outside_in": "Füllen Außen nach Mitte",
+                    "unfill_middle_out": "Leeren Mitte nach Außen",
+                    "unfill_outside_in": "Leeren Außen nach Mitte"
                 }
             }
         },

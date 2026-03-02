@@ -80,7 +80,11 @@
                     "strobe": "Strobe",
                     "comet": "Comet",
                     "chase_middle_out": "Chase Middle Out",
-                    "chase_outside_in": "Chase Outside In"
+                    "chase_outside_in": "Chase Outside In",
+                    "fill_middle_out": "Fill Middle Out",
+                    "fill_outside_in": "Fill Outside In",
+                    "unfill_middle_out": "Unfill Middle Out",
+                    "unfill_outside_in": "Unfill Outside In"
                 }
             }
         },

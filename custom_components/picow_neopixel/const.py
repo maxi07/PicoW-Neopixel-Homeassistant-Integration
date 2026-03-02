@@ -38,6 +38,10 @@ EFFECT_STROBE: Final = "strobe"
 EFFECT_COMET: Final = "comet"
 EFFECT_CHASE_MIDDLE_OUT: Final = "chase_middle_out"
 EFFECT_CHASE_OUTSIDE_IN: Final = "chase_outside_in"
+EFFECT_FILL_MIDDLE_OUT: Final = "fill_middle_out"
+EFFECT_FILL_OUTSIDE_IN: Final = "fill_outside_in"
+EFFECT_UNFILL_MIDDLE_OUT: Final = "unfill_middle_out"
+EFFECT_UNFILL_OUTSIDE_IN: Final = "unfill_outside_in"
 
 EFFECT_LIST: Final = [
     EFFECT_STATIC,
@@ -51,6 +55,10 @@ EFFECT_LIST: Final = [
     EFFECT_COMET,
     EFFECT_CHASE_MIDDLE_OUT,
     EFFECT_CHASE_OUTSIDE_IN,
+    EFFECT_FILL_MIDDLE_OUT,
+    EFFECT_FILL_OUTSIDE_IN,
+    EFFECT_UNFILL_MIDDLE_OUT,
+    EFFECT_UNFILL_OUTSIDE_IN,
 ]
 
 # One-shot effects (all effects that can be played once)
@@ -65,6 +73,10 @@ ONE_SHOT_EFFECT_LIST: Final = [
     EFFECT_COMET,
     EFFECT_CHASE_MIDDLE_OUT,
     EFFECT_CHASE_OUTSIDE_IN,
+    EFFECT_FILL_MIDDLE_OUT,
+    EFFECT_FILL_OUTSIDE_IN,
+    EFFECT_UNFILL_MIDDLE_OUT,
+    EFFECT_UNFILL_OUTSIDE_IN,
 ]
 
 DEFAULT_ONE_SHOT_EFFECT: Final = EFFECT_CHASE
