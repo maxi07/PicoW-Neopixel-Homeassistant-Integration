@@ -77,7 +77,8 @@
                     "breathing": "Breathing",
                     "twinkle": "Twinkle",
                     "scanner": "Scanner",
-                    "strobe": "Strobe"
+                    "strobe": "Strobe",
+                    "comet": "Comet"
                 }
             }
         },

@@ -77,7 +77,8 @@
                     "breathing": "Atmen",
                     "twinkle": "Funkeln",
                     "scanner": "Scanner",
-                    "strobe": "Stroboskop"
+                    "strobe": "Stroboskop",
+                    "comet": "Komet"
                 }
             }
         },

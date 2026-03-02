@@ -35,6 +35,7 @@ EFFECT_BREATHING: Final = "breathing"
 EFFECT_TWINKLE: Final = "twinkle"
 EFFECT_SCANNER: Final = "scanner"
 EFFECT_STROBE: Final = "strobe"
+EFFECT_COMET: Final = "comet"
 
 EFFECT_LIST: Final = [
     EFFECT_STATIC,
@@ -45,6 +46,7 @@ EFFECT_LIST: Final = [
     EFFECT_TWINKLE,
     EFFECT_SCANNER,
     EFFECT_STROBE,
+    EFFECT_COMET,
 ]
 
 # One-shot effects (all effects that can be played once)
@@ -56,6 +58,7 @@ ONE_SHOT_EFFECT_LIST: Final = [
     EFFECT_TWINKLE,
     EFFECT_SCANNER,
     EFFECT_STROBE,
+    EFFECT_COMET,
 ]
 
 DEFAULT_ONE_SHOT_EFFECT: Final = EFFECT_CHASE
