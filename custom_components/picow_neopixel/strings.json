@@ -78,7 +78,9 @@
                     "twinkle": "Twinkle",
                     "scanner": "Scanner",
                     "strobe": "Strobe",
-                    "comet": "Comet"
+                    "comet": "Comet",
+                    "chase_middle_out": "Chase Middle Out",
+                    "chase_outside_in": "Chase Outside In"
                 }
             }
         },

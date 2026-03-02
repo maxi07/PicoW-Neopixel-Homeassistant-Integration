@@ -36,6 +36,8 @@ EFFECT_TWINKLE: Final = "twinkle"
 EFFECT_SCANNER: Final = "scanner"
 EFFECT_STROBE: Final = "strobe"
 EFFECT_COMET: Final = "comet"
+EFFECT_CHASE_MIDDLE_OUT: Final = "chase_middle_out"
+EFFECT_CHASE_OUTSIDE_IN: Final = "chase_outside_in"
 
 EFFECT_LIST: Final = [
     EFFECT_STATIC,
@@ -47,6 +49,8 @@ EFFECT_LIST: Final = [
     EFFECT_SCANNER,
     EFFECT_STROBE,
     EFFECT_COMET,
+    EFFECT_CHASE_MIDDLE_OUT,
+    EFFECT_CHASE_OUTSIDE_IN,
 ]
 
 # One-shot effects (all effects that can be played once)
@@ -59,6 +63,8 @@ ONE_SHOT_EFFECT_LIST: Final = [
     EFFECT_SCANNER,
     EFFECT_STROBE,
     EFFECT_COMET,
+    EFFECT_CHASE_MIDDLE_OUT,
+    EFFECT_CHASE_OUTSIDE_IN,
 ]
 
 DEFAULT_ONE_SHOT_EFFECT: Final = EFFECT_CHASE

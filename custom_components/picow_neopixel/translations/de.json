@@ -78,7 +78,9 @@
                     "twinkle": "Funkeln",
                     "scanner": "Scanner",
                     "strobe": "Stroboskop",
-                    "comet": "Komet"
+                    "comet": "Komet",
+                    "chase_middle_out": "Lauflicht Mitte nach Außen",
+                    "chase_outside_in": "Lauflicht Außen nach Mitte"
                 }
             }
         },
