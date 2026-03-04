@@ -82,7 +82,7 @@ class EstimatedCurrentSensor(PicoWNeoPixelSensorBase):
 
     @property
     def native_value(self) -> int | None:
-        return _get_nested(self.coordinator.data, "info", "diagnostics", "estimated_current_ma")
+        return _get_nested(self.coordinator.data, "state", "diagnostics", "estimated_current_ma")
 
 
 # ---------- LED Count ----------
@@ -119,7 +119,7 @@ class FreeMemorySensor(PicoWNeoPixelSensorBase):
 
     @property
     def native_value(self) -> int | None:
-        return _get_nested(self.coordinator.data, "info", "diagnostics", "free_memory")
+        return _get_nested(self.coordinator.data, "state", "diagnostics", "free_memory")
 
 
 # ---------- Wi-Fi Signal Strength (%) ----------
@@ -139,7 +139,7 @@ class WifiSignalPercentSensor(PicoWNeoPixelSensorBase):
 
     @property
     def native_value(self) -> int | None:
-        return _get_nested(self.coordinator.data, "info", "diagnostics", "wifi_signal_percent")
+        return _get_nested(self.coordinator.data, "state", "diagnostics", "wifi_signal_percent")
 
 
 # ---------- Wi-Fi Signal Strength (RSSI) ----------
@@ -160,7 +160,7 @@ class WifiRssiSensor(PicoWNeoPixelSensorBase):
 
     @property
     def native_value(self) -> int | None:
-        return _get_nested(self.coordinator.data, "info", "diagnostics", "wifi_rssi")
+        return _get_nested(self.coordinator.data, "state", "diagnostics", "wifi_rssi")
 
 
 # ---------- Wi-Fi Channel ----------
@@ -178,7 +178,7 @@ class WifiChannelSensor(PicoWNeoPixelSensorBase):
 
     @property
     def native_value(self) -> int | None:
-        return _get_nested(self.coordinator.data, "info", "diagnostics", "wifi_channel")
+        return _get_nested(self.coordinator.data, "state", "diagnostics", "wifi_channel")
 
 
 # ---------- IP Address ----------
