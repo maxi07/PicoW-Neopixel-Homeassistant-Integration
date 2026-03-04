@@ -25,6 +25,7 @@ from .const import (
     DOMAIN,
     EFFECT_LIST,
     EFFECT_STATIC,
+    TRANSITION_NONE,
 )
 from .coordinator import PicoWNeoPixelCoordinator
 
@@ -151,12 +152,51 @@ class PicoWNeoPixelLight(CoordinatorEntity[PicoWNeoPixelCoordinator], LightEntit
         # Handle color
         if ATTR_RGB_COLOR in kwargs:
             rgb = kwargs[ATTR_RGB_COLOR]
-            command["color"] = {
+            color_dict = {
                 "r": rgb[0],
                 "g": rgb[1],
                 "b": rgb[2],
             }
             self._state_rgb_color = (rgb[0], rgb[1], rgb[2])
+
+            # Check if a transition mode is active and this is a color-only change
+            transition_mode = self.coordinator.transition_mode
+            if (
+                transition_mode != TRANSITION_NONE
+                and ATTR_EFFECT not in kwargs
+            ):
+                # Play transition animation instead of immediate color change
+                # First apply brightness if also provided
+                if "brightness" in command:
+                    await self.coordinator.async_send_command(
+                        {"power": "on", "brightness": command["brightness"]}
+                    )
+
+                self._state_effect = None
+                self.async_write_ha_state()
+
+                try:
+                    await self.coordinator.async_play_once(
+                        effect=transition_mode,
+                        color=color_dict,
+                    )
+                    # The device response contains the mid-transition state
+                    # (old color). Patch coordinator data so the UI shows the
+                    # target color immediately.
+                    if self.coordinator.data and "state" in self.coordinator.data:
+                        self.coordinator.data["state"]["color"] = color_dict
+                        self.coordinator.data["state"]["effect"] = "static"
+                    self.async_write_ha_state()
+                    _LOGGER.debug(
+                        "Transition color change: %s with %s",
+                        color_dict, transition_mode,
+                    )
+                except Exception as err:
+                    _LOGGER.error("Failed transition color change: %s", err)
+                    raise
+                return
+
+            command["color"] = color_dict
 
         # Handle effect
         if ATTR_EFFECT in kwargs:

@@ -42,6 +42,9 @@ EFFECT_FILL_MIDDLE_OUT: Final = "fill_middle_out"
 EFFECT_FILL_OUTSIDE_IN: Final = "fill_outside_in"
 EFFECT_UNFILL_MIDDLE_OUT: Final = "unfill_middle_out"
 EFFECT_UNFILL_OUTSIDE_IN: Final = "unfill_outside_in"
+EFFECT_TRANSITION_MIDDLE_OUT: Final = "transition_middle_out"
+EFFECT_TRANSITION_OUTSIDE_IN: Final = "transition_outside_in"
+EFFECT_TRANSITION_FADE: Final = "transition_fade"
 
 EFFECT_LIST: Final = [
     EFFECT_STATIC,
@@ -59,6 +62,9 @@ EFFECT_LIST: Final = [
     EFFECT_FILL_OUTSIDE_IN,
     EFFECT_UNFILL_MIDDLE_OUT,
     EFFECT_UNFILL_OUTSIDE_IN,
+    EFFECT_TRANSITION_MIDDLE_OUT,
+    EFFECT_TRANSITION_OUTSIDE_IN,
+    EFFECT_TRANSITION_FADE,
 ]
 
 # One-shot effects (all effects that can be played once)
@@ -77,9 +83,27 @@ ONE_SHOT_EFFECT_LIST: Final = [
     EFFECT_FILL_OUTSIDE_IN,
     EFFECT_UNFILL_MIDDLE_OUT,
     EFFECT_UNFILL_OUTSIDE_IN,
+    EFFECT_TRANSITION_MIDDLE_OUT,
+    EFFECT_TRANSITION_OUTSIDE_IN,
+    EFFECT_TRANSITION_FADE,
 ]
 
 DEFAULT_ONE_SHOT_EFFECT: Final = EFFECT_CHASE
+
+# Transition modes for color changes
+TRANSITION_NONE: Final = "none"
+TRANSITION_MIDDLE_OUT: Final = "transition_middle_out"
+TRANSITION_OUTSIDE_IN: Final = "transition_outside_in"
+TRANSITION_FADE: Final = "transition_fade"
+
+TRANSITION_MODE_LIST: Final = [
+    TRANSITION_NONE,
+    TRANSITION_MIDDLE_OUT,
+    TRANSITION_OUTSIDE_IN,
+    TRANSITION_FADE,
+]
+
+DEFAULT_TRANSITION_MODE: Final = TRANSITION_NONE
 
 # Error messages
 ERROR_CANNOT_CONNECT: Final = "cannot_connect"

@@ -13,7 +13,7 @@ from .coordinator import PicoWNeoPixelCoordinator
 
 _LOGGER = logging.getLogger(__name__)
 
-PLATFORMS: list[Platform] = [Platform.LIGHT, Platform.NUMBER, Platform.SENSOR, Platform.BUTTON, Platform.SELECT]
+PLATFORMS: list[Platform] = [Platform.LIGHT, Platform.SELECT, Platform.BUTTON, Platform.NUMBER, Platform.SENSOR]
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:

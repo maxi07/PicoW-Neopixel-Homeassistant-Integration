@@ -84,7 +84,19 @@
                     "fill_middle_out": "Fill Middle Out",
                     "fill_outside_in": "Fill Outside In",
                     "unfill_middle_out": "Unfill Middle Out",
-                    "unfill_outside_in": "Unfill Outside In"
+                    "unfill_outside_in": "Unfill Outside In",
+                    "transition_middle_out": "Transition Middle Out",
+                    "transition_outside_in": "Transition Outside In",
+                    "transition_fade": "Transition Fade"
+                }
+            },
+            "transition_mode": {
+                "name": "Transition Mode",
+                "state": {
+                    "none": "None (Instant)",
+                    "transition_middle_out": "Middle Out",
+                    "transition_outside_in": "Outside In",
+                    "transition_fade": "Fade"
                 }
             }
         },

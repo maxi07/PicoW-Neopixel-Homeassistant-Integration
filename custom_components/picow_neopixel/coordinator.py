@@ -14,7 +14,7 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
-from .const import API_CONTROL, API_INFO, API_STATE, DEFAULT_ONE_SHOT_EFFECT, DEFAULT_PORT, DEFAULT_SCAN_INTERVAL, DEFAULT_SPEED, DOMAIN
+from .const import API_CONTROL, API_INFO, API_STATE, DEFAULT_ONE_SHOT_EFFECT, DEFAULT_PORT, DEFAULT_SCAN_INTERVAL, DEFAULT_SPEED, DEFAULT_TRANSITION_MODE, DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -30,6 +30,7 @@ class PicoWNeoPixelCoordinator(DataUpdateCoordinator):
         self.session = async_get_clientsession(hass)
         self._available = True
         self.one_shot_effect: str = DEFAULT_ONE_SHOT_EFFECT
+        self.transition_mode: str = DEFAULT_TRANSITION_MODE
         self._device_info: dict[str, Any] | None = None
 
         super().__init__(

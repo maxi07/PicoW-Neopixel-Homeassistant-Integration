@@ -84,7 +84,19 @@
                     "fill_middle_out": "Füllen Mitte nach Außen",
                     "fill_outside_in": "Füllen Außen nach Mitte",
                     "unfill_middle_out": "Leeren Mitte nach Außen",
-                    "unfill_outside_in": "Leeren Außen nach Mitte"
+                    "unfill_outside_in": "Leeren Außen nach Mitte",
+                    "transition_middle_out": "Übergang Mitte nach Außen",
+                    "transition_outside_in": "Übergang Außen nach Mitte",
+                    "transition_fade": "Übergang Farbverlauf"
+                }
+            },
+            "transition_mode": {
+                "name": "Übergangsmodus",
+                "state": {
+                    "none": "Keiner (Sofort)",
+                    "transition_middle_out": "Mitte nach Außen",
+                    "transition_outside_in": "Außen nach Mitte",
+                    "transition_fade": "Farbverlauf"
                 }
             }
         },
