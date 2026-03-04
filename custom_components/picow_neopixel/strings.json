@@ -87,7 +87,8 @@
                     "unfill_outside_in": "Unfill Outside In",
                     "transition_middle_out": "Transition Middle Out",
                     "transition_outside_in": "Transition Outside In",
-                    "transition_fade": "Transition Fade"
+                    "transition_fade": "Transition Fade",
+                    "progress_bar": "Progress Bar"
                 }
             },
             "transition_mode": {
@@ -103,6 +104,9 @@
         "number": {
             "animation_speed": {
                 "name": "Animation Speed"
+            },
+            "progress": {
+                "name": "Progress"
             }
         },
         "sensor": {

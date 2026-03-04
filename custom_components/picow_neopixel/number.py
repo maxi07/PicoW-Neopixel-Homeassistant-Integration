@@ -29,11 +29,14 @@ async def async_setup_entry(
     entry: ConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
-    """Set up PicoW NeoPixel animation speed number from a config entry."""
+    """Set up PicoW NeoPixel number entities from a config entry."""
     coordinator: PicoWNeoPixelCoordinator = hass.data[DOMAIN][entry.entry_id]
 
     async_add_entities(
-        [PicoWNeoPixelSpeedNumber(coordinator, entry)],
+        [
+            PicoWNeoPixelSpeedNumber(coordinator, entry),
+            PicoWNeoPixelProgressNumber(coordinator, entry),
+        ],
         update_before_add=True,
     )
 
@@ -110,4 +113,79 @@ class PicoWNeoPixelSpeedNumber(
             _LOGGER.debug("Animation speed set to %s%%", speed)
         except Exception as err:
             _LOGGER.error("Failed to set animation speed: %s", err)
+            raise
+
+
+class PicoWNeoPixelProgressNumber(
+    CoordinatorEntity[PicoWNeoPixelCoordinator], NumberEntity
+):
+    """Representation of the progress bar slider for PicoW NeoPixel."""
+
+    _attr_has_entity_name = True
+    _attr_icon = "mdi:progress-helper"
+    _attr_native_min_value = 0
+    _attr_native_max_value = 100
+    _attr_native_step = 1
+    _attr_native_unit_of_measurement = PERCENTAGE
+    _attr_mode = NumberMode.SLIDER
+    _attr_translation_key = "progress"
+
+    def __init__(
+        self,
+        coordinator: PicoWNeoPixelCoordinator,
+        entry: ConfigEntry,
+    ) -> None:
+        """Initialize the progress bar number."""
+        super().__init__(coordinator)
+
+        self._attr_unique_id = f"{entry.data[CONF_DEVICE_ID]}_progress"
+        self._attr_device_info = DeviceInfo(
+            identifiers={(DOMAIN, entry.data[CONF_DEVICE_ID])},
+            name=entry.data.get(CONF_NAME, "PicoW NeoPixel"),
+            manufacturer="Maximilian Krause",
+            model="PicoW NeoPixel Controller",
+            sw_version="1.0",
+        )
+
+        # Optimistic local state
+        self._state_progress: float = 0
+
+        if coordinator.data:
+            try:
+                self._state_progress = coordinator.data["state"].get("progress", 0)
+            except (KeyError, TypeError):
+                pass
+
+    @callback
+    def _handle_coordinator_update(self) -> None:
+        """Sync local state from coordinator (device polling)."""
+        try:
+            self._state_progress = self.coordinator.data["state"].get("progress", 0)
+        except (KeyError, TypeError):
+            pass
+        super()._handle_coordinator_update()
+
+    @property
+    def available(self) -> bool:
+        """Return if entity is available."""
+        return self.coordinator.available and super().available
+
+    @property
+    def native_value(self) -> float:
+        """Return the current progress value."""
+        return self._state_progress
+
+    async def async_set_native_value(self, value: float) -> None:
+        """Set the progress value."""
+        progress = int(value)
+
+        # Optimistic update
+        self._state_progress = progress
+        self.async_write_ha_state()
+
+        try:
+            await self.coordinator.async_send_command({"progress": progress})
+            _LOGGER.debug("Progress set to %s%%", progress)
+        except Exception as err:
+            _LOGGER.error("Failed to set progress: %s", err)
             raise

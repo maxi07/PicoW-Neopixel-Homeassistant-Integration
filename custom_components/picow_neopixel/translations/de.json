@@ -87,7 +87,8 @@
                     "unfill_outside_in": "Leeren Außen nach Mitte",
                     "transition_middle_out": "Übergang Mitte nach Außen",
                     "transition_outside_in": "Übergang Außen nach Mitte",
-                    "transition_fade": "Übergang Farbverlauf"
+                    "transition_fade": "Übergang Farbverlauf",
+                    "progress_bar": "Fortschrittsbalken"
                 }
             },
             "transition_mode": {
@@ -103,6 +104,9 @@
         "number": {
             "animation_speed": {
                 "name": "Animationsgeschwindigkeit"
+            },
+            "progress": {
+                "name": "Fortschritt"
             }
         },
         "sensor": {

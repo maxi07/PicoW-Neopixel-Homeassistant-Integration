@@ -45,6 +45,7 @@ EFFECT_UNFILL_OUTSIDE_IN: Final = "unfill_outside_in"
 EFFECT_TRANSITION_MIDDLE_OUT: Final = "transition_middle_out"
 EFFECT_TRANSITION_OUTSIDE_IN: Final = "transition_outside_in"
 EFFECT_TRANSITION_FADE: Final = "transition_fade"
+EFFECT_PROGRESS_BAR: Final = "progress_bar"
 
 EFFECT_LIST: Final = [
     EFFECT_STATIC,
@@ -65,6 +66,7 @@ EFFECT_LIST: Final = [
     EFFECT_TRANSITION_MIDDLE_OUT,
     EFFECT_TRANSITION_OUTSIDE_IN,
     EFFECT_TRANSITION_FADE,
+    EFFECT_PROGRESS_BAR,
 ]
 
 # One-shot effects (all effects that can be played once)

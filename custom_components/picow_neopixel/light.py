@@ -24,6 +24,7 @@ from .const import (
     DEFAULT_SPEED,
     DOMAIN,
     EFFECT_LIST,
+    EFFECT_PROGRESS_BAR,
     EFFECT_STATIC,
     TRANSITION_NONE,
 )
@@ -208,6 +209,16 @@ class PicoWNeoPixelLight(CoordinatorEntity[PicoWNeoPixelCoordinator], LightEntit
             except (KeyError, TypeError):
                 command["speed"] = DEFAULT_SPEED
             self._state_effect = effect if effect != EFFECT_STATIC else None
+
+            # When switching to progress bar, include the current progress value
+            # so the device can display it immediately
+            if effect == EFFECT_PROGRESS_BAR:
+                try:
+                    command["progress"] = self.coordinator.data["state"].get(
+                        "progress", 0
+                    )
+                except (KeyError, TypeError):
+                    command["progress"] = 0
 
         # Push state to HA immediately — before the network round-trip
         self.async_write_ha_state()
