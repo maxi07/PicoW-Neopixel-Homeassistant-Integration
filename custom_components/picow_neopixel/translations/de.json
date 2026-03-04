@@ -62,6 +62,35 @@
         }
     },
     "entity": {
+        "light": {
+            "neopixel": {
+                "state_attributes": {
+                    "effect": {
+                        "state": {
+                            "static": "Statisch",
+                            "rainbow": "🌈 Regenbogen",
+                            "fade": "🌅 Farbverlauf",
+                            "chase": "🏃 Lauflicht",
+                            "breathing": "💨 Atmen",
+                            "twinkle": "✨ Funkeln",
+                            "scanner": "🔎 Scanner",
+                            "strobe": "⚡ Stroboskop",
+                            "comet": "☄️ Komet",
+                            "chase_middle_out": "⇔ Lauflicht Mitte → Außen",
+                            "chase_outside_in": "⇒ Lauflicht Außen → Mitte",
+                            "fill_middle_out": "◉ Füllen Mitte → Außen",
+                            "fill_outside_in": "◎ Füllen Außen → Mitte",
+                            "unfill_middle_out": "○ Leeren Mitte → Außen",
+                            "unfill_outside_in": "◌ Leeren Außen → Mitte",
+                            "transition_middle_out": "⇆ Übergang Mitte → Außen",
+                            "transition_outside_in": "⇄ Übergang Außen → Mitte",
+                            "transition_fade": "🌟 Übergang Farbverlauf",
+                            "progress_bar": "📊 Fortschrittsbalken"
+                        }
+                    }
+                }
+            }
+        },
         "button": {
             "play_effect_once": {
                 "name": "Effekt einmal abspielen"
