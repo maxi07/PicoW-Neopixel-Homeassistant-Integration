@@ -14,7 +14,7 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
-from .const import API_CONTROL, API_INFO, API_STATE, DEFAULT_PORT, DEFAULT_SCAN_INTERVAL, DOMAIN
+from .const import API_CONTROL, API_INFO, API_STATE, DEFAULT_ONE_SHOT_EFFECT, DEFAULT_PORT, DEFAULT_SCAN_INTERVAL, DEFAULT_SPEED, DEFAULT_TRANSITION_MODE, DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -29,6 +29,9 @@ class PicoWNeoPixelCoordinator(DataUpdateCoordinator):
         self.port = entry.data.get(CONF_PORT, DEFAULT_PORT)
         self.session = async_get_clientsession(hass)
         self._available = True
+        self.one_shot_effect: str = DEFAULT_ONE_SHOT_EFFECT
+        self.transition_mode: str = DEFAULT_TRANSITION_MODE
+        self._device_info: dict[str, Any] | None = None
 
         super().__init__(
             hass,
@@ -47,13 +50,16 @@ class PicoWNeoPixelCoordinator(DataUpdateCoordinator):
         try:
             async with asyncio.timeout(10):
                 state = await self._get_state()
-                info = await self._get_info()
+
+                # Device info is static – only fetch once
+                if self._device_info is None:
+                    self._device_info = await self._get_info()
 
                 self._available = True
 
                 return {
                     "state": state,
-                    "info": info,
+                    "info": self._device_info,
                 }
         except asyncio.TimeoutError as err:
             self._available = False
@@ -129,6 +135,30 @@ class PicoWNeoPixelCoordinator(DataUpdateCoordinator):
         except Exception as err:
             _LOGGER.exception("Unexpected error sending command: %s", err)
             raise UpdateFailed(f"Unexpected error: {err}") from err
+
+    async def async_play_once(
+        self,
+        effect: str,
+        speed: int | None = None,
+        color: dict[str, int] | None = None,
+    ) -> dict[str, Any]:
+        """Play an effect once, then restore previous state on the device."""
+        command: dict[str, Any] = {"play_once": effect}
+
+        if speed is not None:
+            command["speed"] = speed
+        elif self.data:
+            try:
+                command["speed"] = self.data["state"]["speed"]
+            except (KeyError, TypeError):
+                command["speed"] = DEFAULT_SPEED
+        else:
+            command["speed"] = DEFAULT_SPEED
+
+        if color is not None:
+            command["color"] = color
+
+        return await self.async_send_command(command)
 
     @property
     def available(self) -> bool:
