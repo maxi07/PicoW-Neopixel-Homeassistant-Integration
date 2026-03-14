@@ -1,8 +1,9 @@
 # 🌈 PicoW NeoPixel Home Assistant Integration
 <img src="picow_neopixel.png" alt="picow_neopixel icon" width="200"/>
 
-> [!WARNING]
-> This repository is under development and will be released soon to HACS.
+[![hacs_badge](https://img.shields.io/badge/HACS-Default-41BDF5.svg)](https://github.com/hacs/integration)
+[![Validate with hassfest](https://github.com/maxi07/PicoW-Neopixel-Homeassistant-Integration/actions/workflows/hassfest.yml/badge.svg)](https://github.com/maxi07/PicoW-Neopixel-Homeassistant-Integration/actions/workflows/hassfest.yml)
+[![HACS Validation](https://github.com/maxi07/PicoW-Neopixel-Homeassistant-Integration/actions/workflows/hacs.yml/badge.svg)](https://github.com/maxi07/PicoW-Neopixel-Homeassistant-Integration/actions/workflows/hacs.yml)
 
 A custom Home Assistant integration for controlling NeoPixel LED strips connected to Raspberry Pi Pico W devices via a REST API.
 
@@ -32,7 +33,13 @@ Install the PicoW Neopixel code on to your Raspberry Pico, see [other repository
 
 #### HACS (Recommended)
 
-_Coming soon - this integration will be submitted to HACS_
+1. Make sure [HACS](https://hacs.xyz/) is installed in your Home Assistant instance
+2. Click the button below to add this repository:
+
+   [![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=maxi07&repository=PicoW-Neopixel-Homeassistant-Integration&category=integration)
+
+3. Search for "PicoW NeoPixel" in HACS and install it
+4. Restart Home Assistant
 
 #### Manual Installation
 
