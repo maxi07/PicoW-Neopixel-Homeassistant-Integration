@@ -3,10 +3,10 @@
     "name": "PicoW NeoPixel",
     "codeowners": ["@maxi07"],
     "config_flow": true,
-    "dependencies": ["network"],
     "documentation": "https://github.com/maxi07/PicoW-Neopixel-Homeassistant-Integration",
     "iot_class": "local_polling",
     "issue_tracker": "https://github.com/maxi07/PicoW-Neopixel-Homeassistant-Integration/issues",
     "requirements": [],
-    "version": "1.1.0"
+    "version": "1.2.0",
+    "zeroconf": ["_picow-neopixel._tcp.local."]
 }

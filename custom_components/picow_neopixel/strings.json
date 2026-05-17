@@ -1,40 +1,19 @@
 {
     "config": {
+        "flow_title": "{name}",
         "step": {
-            "scan": {
-                "title": "Searching for devices",
-                "description": "Scanning your network for PicoW NeoPixel devices. This may take up to {timeout} seconds."
-            },
-            "manual": {
-                "title": "Add PicoW NeoPixel Device",
-                "description": "No devices found automatically. Enter the IP address and port manually.",
-                "data": {
-                    "host": "IP Address",
-                    "port": "Port"
-                }
-            },
             "user": {
                 "title": "Add PicoW NeoPixel Device",
-                "description": "Enter the IP address and port of your PicoW NeoPixel device.",
+                "description": "Devices on your network are normally discovered automatically via mDNS/Zeroconf. If your device wasn't discovered, enter its IP address and port manually below.",
                 "data": {
                     "host": "IP Address",
                     "port": "Port"
                 }
             },
-            "discovery": {
-                "title": "Discovered Devices",
-                "description": "Select a discovered PicoW NeoPixel device to add.",
-                "data": {
-                    "device": "Device"
-                }
-            },
-            "discovery_confirm": {
-                "title": "Confirm Discovery",
-                "description": "Do you want to add {name}?"
+            "zeroconf_confirm": {
+                "title": "Discovered PicoW NeoPixel",
+                "description": "Do you want to add the PicoW NeoPixel device **{name}** at `{host}` to Home Assistant?"
             }
-        },
-        "progress": {
-            "scan_devices": "Scanning network for PicoW NeoPixel devices..."
         },
         "error": {
             "cannot_connect": "Failed to connect to the device. Please check the IP address and ensure the device is powered on.",
@@ -42,7 +21,8 @@
             "unknown": "An unexpected error occurred."
         },
         "abort": {
-            "already_configured": "This device is already configured."
+            "already_configured": "This device is already configured.",
+            "cannot_connect": "Failed to connect to the discovered device."
         }
     },
     "device_automation": {
