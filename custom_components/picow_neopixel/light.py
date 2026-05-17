@@ -13,9 +13,7 @@ from homeassistant.components.light import (
     LightEntityFeature,
 )
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CONF_NAME
 from homeassistant.core import HomeAssistant, callback
-from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -29,6 +27,7 @@ from .const import (
     TRANSITION_NONE,
 )
 from .coordinator import PicoWNeoPixelCoordinator
+from .device_info import build_device_info
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -67,13 +66,7 @@ class PicoWNeoPixelLight(CoordinatorEntity[PicoWNeoPixelCoordinator], LightEntit
         super().__init__(coordinator)
 
         self._attr_unique_id = entry.data[CONF_DEVICE_ID]
-        self._attr_device_info = DeviceInfo(
-            identifiers={(DOMAIN, entry.data[CONF_DEVICE_ID])},
-            name=entry.data.get(CONF_NAME, "PicoW NeoPixel"),
-            manufacturer="Maximilian Krause",
-            model="PicoW NeoPixel Controller",
-            sw_version="1.0",
-        )
+        self._attr_device_info = build_device_info(entry)
 
         self._attr_effect_list = EFFECT_LIST.copy()
 

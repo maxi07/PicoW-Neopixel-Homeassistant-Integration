@@ -5,14 +5,13 @@ import logging
 
 from homeassistant.components.button import ButtonEntity
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CONF_NAME
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .const import CONF_DEVICE_ID, DOMAIN
 from .coordinator import PicoWNeoPixelCoordinator
+from .device_info import build_device_info
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -49,13 +48,7 @@ class PicoWNeoPixelPlayOnceButton(
         super().__init__(coordinator)
 
         self._attr_unique_id = f"{entry.data[CONF_DEVICE_ID]}_play_effect_once"
-        self._attr_device_info = DeviceInfo(
-            identifiers={(DOMAIN, entry.data[CONF_DEVICE_ID])},
-            name=entry.data.get(CONF_NAME, "PicoW NeoPixel"),
-            manufacturer="Maximilian Krause",
-            model="PicoW NeoPixel Controller",
-            sw_version="1.0",
-        )
+        self._attr_device_info = build_device_info(entry)
 
     @property
     def available(self) -> bool:

@@ -8,9 +8,8 @@ from homeassistant.components.number import (
     NumberMode,
 )
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CONF_NAME, PERCENTAGE
+from homeassistant.const import PERCENTAGE
 from homeassistant.core import HomeAssistant, callback
-from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -20,6 +19,7 @@ from .const import (
     DOMAIN,
 )
 from .coordinator import PicoWNeoPixelCoordinator
+from .device_info import build_device_info
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -64,13 +64,7 @@ class PicoWNeoPixelSpeedNumber(
         super().__init__(coordinator)
 
         self._attr_unique_id = f"{entry.data[CONF_DEVICE_ID]}_animation_speed"
-        self._attr_device_info = DeviceInfo(
-            identifiers={(DOMAIN, entry.data[CONF_DEVICE_ID])},
-            name=entry.data.get(CONF_NAME, "PicoW NeoPixel"),
-            manufacturer="Maximilian Krause",
-            model="PicoW NeoPixel Controller",
-            sw_version="1.0",
-        )
+        self._attr_device_info = build_device_info(entry)
 
         # Optimistic local state
         self._state_speed: float = DEFAULT_SPEED
@@ -139,13 +133,7 @@ class PicoWNeoPixelProgressNumber(
         super().__init__(coordinator)
 
         self._attr_unique_id = f"{entry.data[CONF_DEVICE_ID]}_progress"
-        self._attr_device_info = DeviceInfo(
-            identifiers={(DOMAIN, entry.data[CONF_DEVICE_ID])},
-            name=entry.data.get(CONF_NAME, "PicoW NeoPixel"),
-            manufacturer="Maximilian Krause",
-            model="PicoW NeoPixel Controller",
-            sw_version="1.0",
-        )
+        self._attr_device_info = build_device_info(entry)
 
         # Optimistic local state
         self._state_progress: float = 0
