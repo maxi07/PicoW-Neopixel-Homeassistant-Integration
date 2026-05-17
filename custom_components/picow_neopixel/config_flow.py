@@ -211,6 +211,12 @@ class PicoWNeoPixelConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             except UnknownError:
                 errors["base"] = ERROR_UNKNOWN
             else:
+                self._abort_if_unique_id_configured(
+                    updates={
+                        CONF_HOST: self._discovered_host,
+                        CONF_PORT: self._discovered_port,
+                    }
+                )
                 return self.async_create_entry(
                     title=info["title"],
                     data={
@@ -223,6 +229,7 @@ class PicoWNeoPixelConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
         return self.async_show_form(
             step_id="zeroconf_confirm",
+            data_schema=vol.Schema({}),
             description_placeholders={
                 "name": self._discovered_name or DEFAULT_NAME,
                 "host": self._discovered_host,
