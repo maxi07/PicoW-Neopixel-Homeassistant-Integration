@@ -9,13 +9,13 @@ A custom Home Assistant integration for controlling NeoPixel LED strips connecte
 
 ## Features
 
-- **Automatic HTTP Network Discovery**: Devices are automatically discovered via network scanning
+- **Automatic Discovery via Zeroconf/mDNS**: Devices announce themselves on the network and are picked up by Home Assistant's built-in Zeroconf component — no LAN scanning required
 - **Full LED Control**: Control color (RGB), brightness, and power state
 - **8 Built-in Effects**: Rainbow, fade, chase, breathing, twinkle, scanner, strobe, and static
 - **Real-time Updates**: Integration polls device state and updates immediately after commands
 - **Reliable Connection**: Automatic reconnection handling and error recovery
 - **Device Information**: View device details including IP, MAC address, and LED count
-- **Easy Setup**: Simple configuration flow with automatic device detection
+- **Easy Setup**: One-click setup for discovered devices, with manual IP fallback
 
 ## Requirements
 
@@ -56,25 +56,22 @@ Install the PicoW Neopixel code on to your Raspberry Pico, see [other repository
 
 ### Automatic Setup (Recommended)
 
-The integration will automatically scan your network for PicoW NeoPixel devices:
+The PicoW NeoPixel firmware advertises itself over mDNS (`_picow-neopixel._tcp.local.`). Home Assistant's Zeroconf component picks the announcement up automatically:
 
-1. Go to **Settings** → **Devices & Services**
-2. Click **+ Add Integration**
-3. Search for "PicoW NeoPixel"
-4. Wait while the integration scans your network (this may take up to 60 seconds)
-5. Select your device from the list of discovered devices
-6. Click **Submit**
+1. Power on the device and wait until it has connected to Wi-Fi.
+2. In Home Assistant, the device will appear under **Settings** → **Devices & Services** as a discovered integration.
+3. Click **Configure**, confirm the device, and you're done.
 
-The integration scans your local network(s) to find devices. If you're running Home Assistant in Docker, it will also scan common home network ranges.
+No network scanning is performed — the integration never probes hosts that don't belong to it.
 
 ### Manual Setup
 
-If automatic discovery doesn't find your device:
+If the device isn't picked up automatically (for example because mDNS traffic is blocked between VLANs):
 
 1. Go to **Settings** → **Devices & Services**
 2. Click **+ Add Integration**
 3. Search for "PicoW NeoPixel"
-4. If no devices are found, enter the device information manually:
+4. Enter the device information:
    - **Host**: IP address of your PicoW device
    - **Port**: Default is 80
 5. Click **Submit**
@@ -112,9 +109,10 @@ Automations can be configured and the device exposes actions such as setting the
 ### 🔍 Device Not Discovered
 
 1. ✅ Ensure the PicoW device is powered on and connected to WiFi
-2. 🌐 Check that Home Assistant and the Pico W are on the same network
-3. 📝 Try manual setup using the device's IP address
-4. 📋 Check the Pico W logs for errors
+2. 🌐 Check that Home Assistant and the Pico W are on the same network / VLAN — mDNS traffic doesn't cross subnets by default
+3. 🛡️ If you run Home Assistant in Docker, make sure the container is on the `host` network (or has mDNS reflection configured) so it can see multicast traffic on the LAN
+4. 📝 Try manual setup using the device's IP address
+5. 📋 Check the Pico W logs for errors
 
 ### 🔌 Connection Issues
 

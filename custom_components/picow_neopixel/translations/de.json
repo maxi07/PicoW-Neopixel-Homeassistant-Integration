@@ -1,40 +1,19 @@
 {
     "config": {
+        "flow_title": "{name}",
         "step": {
-            "scan": {
-                "title": "Geräte werden gesucht",
-                "description": "Ihr Netzwerk wird nach PicoW NeoPixel Geräten durchsucht. Dies kann bis zu {timeout} Sekunden dauern."
-            },
-            "manual": {
-                "title": "PicoW NeoPixel Gerät hinzufügen",
-                "description": "Keine Geräte automatisch gefunden. Geben Sie die IP-Adresse und den Port manuell ein.",
-                "data": {
-                    "host": "IP-Adresse",
-                    "port": "Port"
-                }
-            },
             "user": {
                 "title": "PicoW NeoPixel Gerät hinzufügen",
-                "description": "Geben Sie die IP-Adresse und den Port Ihres PicoW NeoPixel Geräts ein.",
+                "description": "Geräte in Ihrem Netzwerk werden normalerweise automatisch über mDNS/Zeroconf erkannt. Falls Ihr Gerät nicht erkannt wurde, geben Sie unten die IP-Adresse und den Port manuell ein.",
                 "data": {
                     "host": "IP-Adresse",
                     "port": "Port"
                 }
             },
-            "discovery": {
-                "title": "Gefundene Geräte",
-                "description": "Wählen Sie ein gefundenes PicoW NeoPixel Gerät aus, um es hinzuzufügen.",
-                "data": {
-                    "device": "Gerät"
-                }
-            },
-            "discovery_confirm": {
-                "title": "Erkennung bestätigen",
-                "description": "Möchten Sie {name} hinzufügen?"
+            "zeroconf_confirm": {
+                "title": "PicoW NeoPixel gefunden",
+                "description": "Möchten Sie das PicoW NeoPixel Gerät **{name}** unter `{host}` zu Home Assistant hinzufügen?"
             }
-        },
-        "progress": {
-            "scan_devices": "Netzwerk wird nach PicoW NeoPixel Geräten durchsucht..."
         },
         "error": {
             "cannot_connect": "Verbindung zum Gerät fehlgeschlagen. Bitte überprüfen Sie die IP-Adresse und stellen Sie sicher, dass das Gerät eingeschaltet ist.",
@@ -42,7 +21,8 @@
             "unknown": "Ein unerwarteter Fehler ist aufgetreten."
         },
         "abort": {
-            "already_configured": "Dieses Gerät ist bereits konfiguriert."
+            "already_configured": "Dieses Gerät ist bereits konfiguriert.",
+            "cannot_connect": "Verbindung zum erkannten Gerät fehlgeschlagen."
         }
     },
     "device_automation": {
