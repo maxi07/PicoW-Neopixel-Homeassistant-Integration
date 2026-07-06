@@ -9,6 +9,8 @@
 A custom Home Assistant integration for controlling NeoPixel LED strips connected to Raspberry Pi Pico W devices via a REST API.
 
 > **✅ Now available in HACS by default!** This integration is part of the official [HACS default repositories](https://github.com/hacs/default) — no need to add a custom repository anymore. Just search for **PicoW NeoPixel** in HACS.
+>
+> 📖 Read the story behind it on my blog: [PicoW NeoPixel is now available in HACS](https://maexbert.de/blog/2026-07-06-picow-neopixel-hacs-verfuegbar).
 
 ## 🧩 Part of a two-repository project
 
@@ -224,9 +226,11 @@ The integration uses HTTP (not HTTPS) for simplicity. Since it operates on your 
 - **Update Interval**: 10 seconds
 - **Command Timeout**: 10 seconds
 
-## 🤝 Related Project
+## 🤝 Related Project & Links
 
 - 🔌 **Firmware / device side:** [PicoW-Neopixel-Homeassistant-Client](https://github.com/maxi07/PicoW-Neopixel-Homeassistant-Client) — the MicroPython code that runs on the Pico W.
+- 🗂️ **Project page:** [maexbert.de/projekte/homeassistant-led](https://maexbert.de/projekte/homeassistant-led) — overview of the whole Home Assistant LED project.
+- 📖 **Blog article:** [PicoW NeoPixel is now available in HACS](https://maexbert.de/blog/2026-07-06-picow-neopixel-hacs-verfuegbar) — how the integration made it into the HACS default repositories.
 
 ## 📝 Credits
 
