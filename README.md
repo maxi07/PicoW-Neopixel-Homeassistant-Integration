@@ -1,4 +1,5 @@
 # 🌈 PicoW NeoPixel Home Assistant Integration
+
 <img src="picow_neopixel.png" alt="picow_neopixel icon" width="200"/>
 
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-41BDF5.svg)](https://github.com/hacs/integration)
@@ -7,7 +8,20 @@
 
 A custom Home Assistant integration for controlling NeoPixel LED strips connected to Raspberry Pi Pico W devices via a REST API.
 
-## Features
+> **✅ Now available in HACS by default!** This integration is part of the official [HACS default repositories](https://github.com/hacs/default) — no need to add a custom repository anymore. Just search for **PicoW NeoPixel** in HACS.
+
+## 🧩 Part of a two-repository project
+
+This integration is the **Home Assistant side** of the project. It talks to a Raspberry Pi Pico W that runs the matching firmware:
+
+| Repository | Role | Language |
+|---|---|---|
+| **PicoW-Neopixel-Homeassistant-Integration** (this repo) | Home Assistant custom integration — discovers the device and exposes it as a light entity | Python |
+| [**PicoW-Neopixel-Homeassistant-Client**](https://github.com/maxi07/PicoW-Neopixel-Homeassistant-Client) | MicroPython firmware for the Pico W — drives the LEDs and serves the REST API | MicroPython |
+
+👉 **You need both:** flash the [client firmware](https://github.com/maxi07/PicoW-Neopixel-Homeassistant-Client) onto your Pico W first, then install this integration in Home Assistant.
+
+## ✨ Features
 
 - **Automatic Discovery via Zeroconf/mDNS**: Devices announce themselves on the network and are picked up by Home Assistant's built-in Zeroconf component — no LAN scanning required
 - **Full LED Control**: Control color (RGB), brightness, and power state
@@ -17,49 +31,50 @@ A custom Home Assistant integration for controlling NeoPixel LED strips connecte
 - **Device Information**: View device details including IP, MAC address, and LED count
 - **Easy Setup**: One-click setup for discovered devices, with manual IP fallback
 
-## Requirements
+## 📋 Requirements
 
-- Home Assistant 2023.1 or newer
-- PicoW NeoPixel device already configured and running on your network
-- Device and Home Assistant must be on the same network
+- Home Assistant 2024.1 or newer
+- A Raspberry Pi Pico W running the [PicoW NeoPixel Client firmware](https://github.com/maxi07/PicoW-Neopixel-Homeassistant-Client)
+- Device and Home Assistant on the same network / VLAN (mDNS does not cross subnets by default)
 
 ## 🛠️ Installation
 
-### Part 1: PicoW Device Setup
+### Part 1: Flash the Pico W
 
-Install the PicoW Neopixel code on to your Raspberry Pico, see [other repository](https://github.com/maxi07/PicoW-Neopixel-Homeassistant-Client).
+Install the [PicoW NeoPixel Client firmware](https://github.com/maxi07/PicoW-Neopixel-Homeassistant-Client) onto your Raspberry Pi Pico W and configure its `config.json` (WiFi, LED pin, LED count). See that repository's README for wiring and flashing instructions.
 
 ### Part 2: Install this integration
 
 #### HACS (Recommended)
 
-1. Make sure [HACS](https://hacs.xyz/) is installed in your Home Assistant instance
-2. Click the button below to add this repository:
+1. Make sure [HACS](https://hacs.xyz/) is installed in your Home Assistant instance.
+2. Open HACS and search for **PicoW NeoPixel** — it is included in the HACS default repositories, so it shows up directly.
+
+   Alternatively, click the button below to jump straight to it:
 
    [![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=maxi07&repository=PicoW-Neopixel-Homeassistant-Integration&category=integration)
 
-3. Search for "PicoW NeoPixel" in HACS and install it
-4. Restart Home Assistant
+3. Install it and **restart Home Assistant**.
 
 #### Manual Installation
 
 1. Copy the `picow_neopixel` folder to your Home Assistant `custom_components` directory:
+
    ```bash
    mkdir -p /config/custom_components
-   cp -r picow_neopixel /config/custom_components/
+   cp -r custom_components/picow_neopixel /config/custom_components/
    ```
 
-2. Restart Home Assistant:
-   - Go to **Settings** → **System** → **Restart**
+2. Restart Home Assistant: **Settings** → **System** → **Restart**.
 
 ## ⚙️ Setup
 
 ### Automatic Setup (Recommended)
 
-The PicoW NeoPixel firmware advertises itself over mDNS (`_picow-neopixel._tcp.local.`). Home Assistant's Zeroconf component picks the announcement up automatically:
+The Pico W firmware advertises itself over mDNS (`_picow-neopixel._tcp.local.`). Home Assistant's Zeroconf component picks the announcement up automatically:
 
 1. Power on the device and wait until it has connected to Wi-Fi.
-2. In Home Assistant, the device will appear under **Settings** → **Devices & Services** as a discovered integration.
+2. In Home Assistant, the device appears under **Settings** → **Devices & Services** as a discovered integration.
 3. Click **Configure**, confirm the device, and you're done.
 
 No network scanning is performed — the integration never probes hosts that don't belong to it.
@@ -68,24 +83,24 @@ No network scanning is performed — the integration never probes hosts that don
 
 If the device isn't picked up automatically (for example because mDNS traffic is blocked between VLANs):
 
-1. Go to **Settings** → **Devices & Services**
-2. Click **+ Add Integration**
-3. Search for "PicoW NeoPixel"
+1. Go to **Settings** → **Devices & Services**.
+2. Click **+ Add Integration**.
+3. Search for **PicoW NeoPixel**.
 4. Enter the device information:
-   - **Host**: IP address of your PicoW device
+   - **Host**: IP address of your Pico W device
    - **Port**: Default is 80
-5. Click **Submit**
+5. Click **Submit**.
 
-The integration will verify the connection and add the device.
+The integration verifies the connection and adds the device.
 
-## Usage
+## 💡 Usage
 
 ### Basic Control
 
 Once configured, the device appears as a light entity in Home Assistant. You can control:
 
 - **Power**: Turn on/off
-- **Brightness**: Adjust from 0-255
+- **Brightness**: Adjust from 0–255
 - **Color**: Pick any RGB color
 
 ### Effects
@@ -101,39 +116,40 @@ The integration supports 8 built-in effects:
 - **Scanner**: Knight Rider style
 - **Strobe**: Strobe light effect
 
-###  Automations
-Automations can be configured and the device exposes actions such as setting the brightness, color, or starting an effect.
+### Automations
+
+Automations can be configured, and the device exposes actions such as setting the brightness, color, or starting an effect.
 
 ## 🔧 Troubleshooting
 
 ### 🔍 Device Not Discovered
 
-1. ✅ Ensure the PicoW device is powered on and connected to WiFi
-2. 🌐 Check that Home Assistant and the Pico W are on the same network / VLAN — mDNS traffic doesn't cross subnets by default
-3. 🛡️ If you run Home Assistant in Docker, make sure the container is on the `host` network (or has mDNS reflection configured) so it can see multicast traffic on the LAN
-4. 📝 Try manual setup using the device's IP address
-5. 📋 Check the Pico W logs for errors
+1. ✅ Ensure the Pico W device is powered on and connected to WiFi.
+2. 🌐 Check that Home Assistant and the Pico W are on the same network / VLAN — mDNS traffic doesn't cross subnets by default.
+3. 🛡️ If you run Home Assistant in Docker, make sure the container is on the `host` network (or has mDNS reflection configured) so it can see multicast traffic on the LAN.
+4. 📝 Try manual setup using the device's IP address.
+5. 📋 Check the Pico W logs for errors.
 
 ### 🔌 Connection Issues
 
-1. 📍 Verify the IP address hasn't changed (consider setting a static IP)
-2. 🔥 Check firewall settings
-3. 🏓 Test connectivity: `ping <device_ip>`
-4. 🌐 Try accessing `http://<device_ip>/info` in a browser
+1. 📍 Verify the IP address hasn't changed (consider setting a static IP / DHCP reservation).
+2. 🔥 Check firewall settings.
+3. 🏓 Test connectivity: `ping <device_ip>`.
+4. 🌐 Try accessing `http://<device_ip>/info` in a browser.
 
 ### 💫 Effects Not Working
 
-1. ⚡ The device must be turned on for effects to work
-2. 🎨 Effects override color settings
-3. 📋 Check Home Assistant logs for error messages
-4. 🔋 Verify the Pico W has sufficient power for all LEDs
+1. ⚡ The device must be turned on for effects to work.
+2. 🎨 Effects override color settings.
+3. 📋 Check Home Assistant logs for error messages.
+4. 🔋 Verify the Pico W has sufficient power for all LEDs.
 
 ### ❌ Integration Shows Unavailable
 
-1. 🌐 Check network connectivity
-2. 🔄 Restart the Pico W device
-3. 📋 Check logs: **Settings** → **System** → **Logs**
-4. 🗑️ Try removing and re-adding the integration
+1. 🌐 Check network connectivity.
+2. 🔄 Restart the Pico W device.
+3. 📋 Check logs: **Settings** → **System** → **Logs**.
+4. 🗑️ Try removing and re-adding the integration.
 
 ## 📊 Device Information
 
@@ -152,162 +168,67 @@ Access these in Developer Tools → States or use in templates:
 
 ## 🔗 API Endpoints
 
-- `GET /info` - Device information and capabilities
-- `GET /state` - Current LED state
-- `POST /control` - Send commands
+The integration communicates with the Pico W using these REST API endpoints (served by the [client firmware](https://github.com/maxi07/PicoW-Neopixel-Homeassistant-Client)):
+
+- `GET /info` — Device information and capabilities
+- `GET /state` — Current LED state
+- `POST /control` — Send commands (power, color, brightness, effects)
 
 ## ⚙️ Configuration
 
-No adonal configuration is needed after setup. All settings are configured on the PicoW device itself via its `config.json` file.
+No additional configuration is needed after setup. All hardware settings are configured on the Pico W device itself via its `config.json` file (see the [client repository](https://github.com/maxi07/PicoW-Neopixel-Homeassistant-Client)).
 
 ### 🔢 Multiple Devices
 
 To use multiple PicoW NeoPixel devices:
 
-1. Give each device a unique `device.id` in `config.json`
-2. Use different `device.name` for easy identification
-3. Add each device separately in Home Assistant
+1. Give each device a unique `device.id` in its `config.json`.
+2. Use a different `device.name` for easy identification.
+3. Add each device separately in Home Assistant.
 
 ### 📌 Static IP Address
 
 Recommended for reliability:
 
-1. In your router, reserve an IP for the Pico W's MAC address
-2. This prevents connection issues after device restarts
+1. In your router, reserve an IP for the Pico W's MAC address.
+2. This prevents connection issues after device restarts.
 
 ## 🗑️ Uninstalling
 
-1. Go to **Settings** → **Devices & Services**
-2. Find the PicoW NeoPixel integration
-3. Click the three dots menu → **Delete**
-4. Ree the `custom_components/picow_neopixel` folder
-5. Restart Home Assistant
+1. Go to **Settings** → **Devices & Services**.
+2. Find the PicoW NeoPixel integration.
+3. Click the three-dots menu → **Delete**.
+4. Remove the `custom_components/picow_neopixel` folder.
+5. Restart Home Assistant.
 
 ## 🔒 Security & Privacy
 
 **Privacy:**
+
 - ✅ Only communicates locally on your network
 - ✅ No data sent to external services
 - ✅ No analytics or telemetry
 
 **Security Note:**
 The integration uses HTTP (not HTTPS) for simplicity. Since it operates on your local network, this is generally acceptable. For enhanced security:
-- 🔐 Keep devices on isolated VLAN
-- 🚫 Don't expose to internet
+
+- 🔐 Keep devices on an isolated VLAN
+- 🚫 Don't expose them to the internet
 - 🔑 Use strong WiFi passwords
 
 ## 🛠️ Technical Details
 
-- **Platform**: Light
+- **Platform**: Light (plus select, button, number and sensor entities)
 - **Communication**: HTTP REST API
-- **Device Not Discovered
-
-1. Ensure the PicoW device is powered on and connected to WiFi
-2. Verify that Home Assistant and the Pico W are on the same network/subnet
-3. If running Home Assistant in Docker, the integration automatically scans common home networks
-4. Wait the full 60 seconds for the network scan to complete
-5. Try manual setup using the device's IP address
-6. Check that port 80 is accessible on the device
-
-### Connection Issues
-
-1. Verify the device is reachable: `ping <device_ip>`
-2. Test the API endpoint in a browser: `http://<device_ip>/info`
-3. Check firewall settings on both Home Assistant and the device
-4. Consider setting a static IP for the device in your router
-5. Check Home Assistant logs: **Settings** → **System** → **Logs**
-
-### Integration Shows Unavailable
-
-1. Check network connectivity between Home Assistant and the device
-2. Verify the device IP address hasn't changed
-3. Restart the PicoW device
-4. Check integration logs for specific error messages
-5. Try removing and re-adding the integration
-
-### Effects Not Working
-
-1. Ensure the light entity is turned on
-2. Device Information
-
-The integration exposes the following information as entity attributes:
-
-- `device_id`: Unique device identifier
-- `ip_address`: Current IP address
-- `mac_address`: MAC address
-- `num_leds`: Number of LEDs configured
-
-Access these in Developer Tools → States or use in templates:
-
-```yaml
-{{ state_attr('light.picow_neopixel', 'ip_address') }}
-```
-
-## Configuration
-
-### Multiple Devices
-
-The integration supports multiple PicoW NeoPixel devices. Simply add each device separately through **Settings** → **Devices & Services**. Each device must have a unique device ID configured on the PicoW itself.
-
-### Static IP Recommendation
-
-For improved reliability, configure a static IP address or DHCP reservation for your PicoW device in your router. This prevents connection issues if the device IP changes.
-
-## 🗑️ Uninstalling
-
-1. Go to **Settings** → **Devices & Services**
-2. Find the PicoW NeoPixel integration
-3. Click the three dots menu → **Delete**
-4. Confirm deletion
-
-To completely remove the integration:
-1. Delete all device entries as described above
-2. Remove the `custom_components/picow_neopixel` folder
-3. Restart Home Assistant
-
-## Technical Details
-
-- **Platform**: Light
-- **Communication**: HTTP REST API
-- **Discovery Method**: HTTP network scanning
-- **Scan Timeout**: 60 seconds (30 parallel scans)
+- **Discovery Method**: Zeroconf / mDNS (`_picow-neopixel._tcp.local.`)
 - **Update Interval**: 10 seconds
 - **Command Timeout**: 10 seconds
-- **Supported Networks**: Automatically detects local networks, includes common home networks for Docker installationAPI Endpoints
 
-The integration communicates with the PicoW device using these REST API endpoints:
+## 🤝 Related Project
 
-- `GET /info` - Device information and capabilities
-- `GET /state` - Current LED state
-- `POST /control` - Send commands (power, color, brightness, effects)
+- 🔌 **Firmware / device side:** [PicoW-Neopixel-Homeassistant-Client](https://github.com/maxi07/PicoW-Neopixel-Homeassistant-Client) — the MicroPython code that runs on the Pico W.
 
-## Security & Privacy
+## 📝 Credits
 
-- Only communicates locally on your network
-- No data sent to external services
-- No analytics or telemetry
-- Uses HTTP (not HTTPS) for local network communication
-
-For enhanced security:
-- Keep devices on an isolated VLAN
-- Do not expose the integration to the internet
-- Use strong WiFi passwords for your devices
-
-## Credits
-
-**Author**: Maximilian Krause  
-**Version**: 1.0.0  
+**Author**: Maximilian Krause
 **License**: MIT
-
-## 📝 Changelog
-
-### Version 1.0.0 (Initial Release)
-- Full RGB color control
-- Brightness control (0-255)
-- 8 built-in effects
-- Automatic HTTP network device discovery
-- Manual configuration support
-- Real-time state updates
-- Automatic reconnection handling
-- Comprehensive error handling and logging
-- Docker network support
