@@ -64,7 +64,7 @@ class PicoWNeoPixelSpeedNumber(
         super().__init__(coordinator)
 
         self._attr_unique_id = f"{entry.data[CONF_DEVICE_ID]}_animation_speed"
-        self._attr_device_info = build_device_info(entry)
+        self._attr_device_info = build_device_info(entry, (coordinator.data or {}).get("info"))
 
         # Optimistic local state
         self._state_speed: float = DEFAULT_SPEED
@@ -133,7 +133,7 @@ class PicoWNeoPixelProgressNumber(
         super().__init__(coordinator)
 
         self._attr_unique_id = f"{entry.data[CONF_DEVICE_ID]}_progress"
-        self._attr_device_info = build_device_info(entry)
+        self._attr_device_info = build_device_info(entry, (coordinator.data or {}).get("info"))
 
         # Optimistic local state
         self._state_progress: float = 0

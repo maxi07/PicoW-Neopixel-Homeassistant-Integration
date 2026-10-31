@@ -48,7 +48,7 @@ class PicoWNeoPixelPlayOnceButton(
         super().__init__(coordinator)
 
         self._attr_unique_id = f"{entry.data[CONF_DEVICE_ID]}_play_effect_once"
-        self._attr_device_info = build_device_info(entry)
+        self._attr_device_info = build_device_info(entry, (coordinator.data or {}).get("info"))
 
     @property
     def available(self) -> bool:
