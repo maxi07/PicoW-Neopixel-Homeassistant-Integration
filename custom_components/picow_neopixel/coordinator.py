@@ -67,34 +67,28 @@ class PicoWNeoPixelCoordinator(DataUpdateCoordinator):
         except aiohttp.ClientError as err:
             self._available = False
             raise UpdateFailed(f"Error communicating with device at {self.host}: {err}") from err
+        except UpdateFailed:
+            self._available = False
+            raise
         except Exception as err:
             self._available = False
-            _LOGGER.exception("Unexpected error fetching data: %s", err)
             raise UpdateFailed(f"Unexpected error: {err}") from err
 
     async def _get_state(self) -> dict[str, Any]:
         """Get current state from device."""
         url = f"{self.base_url}{API_STATE}"
-        try:
-            async with self.session.get(url) as response:
-                if response.status != 200:
-                    raise UpdateFailed(f"Device returned status {response.status}")
-                return await response.json()
-        except Exception as err:
-            _LOGGER.error("Error getting state from %s: %s", url, err)
-            raise
+        async with self.session.get(url) as response:
+            if response.status != 200:
+                raise UpdateFailed(f"Device returned status {response.status}")
+            return await response.json()
 
     async def _get_info(self) -> dict[str, Any]:
         """Get device info."""
         url = f"{self.base_url}{API_INFO}"
-        try:
-            async with self.session.get(url) as response:
-                if response.status != 200:
-                    raise UpdateFailed(f"Device returned status {response.status}")
-                return await response.json()
-        except Exception as err:
-            _LOGGER.error("Error getting info from %s: %s", url, err)
-            raise
+        async with self.session.get(url) as response:
+            if response.status != 200:
+                raise UpdateFailed(f"Device returned status {response.status}")
+            return await response.json()
 
     async def async_send_command(self, command: dict[str, Any]) -> dict[str, Any]:
         """Send command to device."""
