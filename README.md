@@ -148,6 +148,10 @@ Automations can be configured, and the device exposes actions such as setting th
 
 ### ❌ Integration Shows Unavailable
 
+When a device goes offline, Home Assistant logs one polling error per outage.
+Polling continues without repeated error messages, and the device becomes available
+automatically when it responds again.
+
 1. 🌐 Check network connectivity.
 2. 🔄 Restart the Pico W device.
 3. 📋 Check logs: **Settings** → **System** → **Logs**.
