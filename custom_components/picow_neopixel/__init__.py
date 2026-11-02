@@ -10,6 +10,7 @@ from homeassistant.exceptions import ConfigEntryNotReady
 
 from .const import DOMAIN
 from .coordinator import PicoWNeoPixelCoordinator
+from .device_info import async_update_device_firmware_version
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -34,6 +35,9 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     hass.data.setdefault(DOMAIN, {})
     hass.data[DOMAIN][entry.entry_id] = coordinator
 
+    async_update_device_firmware_version(
+        hass, entry, (coordinator.data or {}).get("info")
+    )
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
     _LOGGER.info("PicoW NeoPixel integration setup complete")
