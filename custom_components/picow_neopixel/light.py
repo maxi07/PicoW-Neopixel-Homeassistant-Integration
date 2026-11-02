@@ -66,7 +66,7 @@ class PicoWNeoPixelLight(CoordinatorEntity[PicoWNeoPixelCoordinator], LightEntit
         super().__init__(coordinator)
 
         self._attr_unique_id = entry.data[CONF_DEVICE_ID]
-        self._attr_device_info = build_device_info(entry)
+        self._attr_device_info = build_device_info(entry, (coordinator.data or {}).get("info"))
 
         self._attr_effect_list = EFFECT_LIST.copy()
 

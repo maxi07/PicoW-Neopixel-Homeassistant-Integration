@@ -56,7 +56,7 @@ class PicoWNeoPixelOneShotEffectSelect(
         super().__init__(coordinator)
 
         self._attr_unique_id = f"{entry.data[CONF_DEVICE_ID]}_one_shot_effect"
-        self._attr_device_info = build_device_info(entry)
+        self._attr_device_info = build_device_info(entry, (coordinator.data or {}).get("info"))
         self._attr_options = ONE_SHOT_EFFECT_LIST
         self._attr_current_option = coordinator.one_shot_effect
 
@@ -95,7 +95,7 @@ class PicoWNeoPixelTransitionModeSelect(
         super().__init__(coordinator)
 
         self._attr_unique_id = f"{entry.data[CONF_DEVICE_ID]}_transition_mode"
-        self._attr_device_info = build_device_info(entry)
+        self._attr_device_info = build_device_info(entry, (coordinator.data or {}).get("info"))
         self._attr_options = TRANSITION_MODE_LIST
         self._attr_current_option = coordinator.transition_mode
 
