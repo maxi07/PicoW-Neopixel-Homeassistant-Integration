@@ -1,6 +1,6 @@
 # 🌈 PicoW NeoPixel Home Assistant Integration
 
-<img src="picow_neopixel.png" alt="picow_neopixel icon" width="200"/>
+<img src="https://raw.githubusercontent.com/maxi07/PicoW-Neopixel-Homeassistant-Integration/main/picow_neopixel.png" alt="picow_neopixel icon" width="200"/>
 
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-41BDF5.svg)](https://github.com/hacs/integration)
 [![Validate with hassfest](https://github.com/maxi07/PicoW-Neopixel-Homeassistant-Integration/actions/workflows/hassfest.yml/badge.svg)](https://github.com/maxi07/PicoW-Neopixel-Homeassistant-Integration/actions/workflows/hassfest.yml)
